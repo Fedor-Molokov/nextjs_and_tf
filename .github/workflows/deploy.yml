@@ -18,11 +18,8 @@ jobs:
         with:
           terraform_version: 1.5.0
 
-      - name: Change to terraform directory
-        run: cd terraform
-
       - name: Initialize Terraform
-        run: terraform init
+        run: terraform init -chdir=terraform
 
       - name: Apply Terraform configuration
         env:
