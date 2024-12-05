@@ -12,7 +12,7 @@ resource "aws_s3_bucket" "static_assets" {
   }
 
   lifecycle {
-    prevent_destroy = true
+    # prevent_destroy = true
   }
 
   cors_rule {
@@ -53,6 +53,8 @@ resource "aws_lambda_function" "image_optimization_function" {
     }
   }
 }
+
+###
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = "Access Identity for CloudFront"
