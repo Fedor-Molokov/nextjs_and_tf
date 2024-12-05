@@ -1,6 +1,10 @@
+resource "random_id" "suffix" {
+  byte_length = 4
+}
+
 resource "aws_s3_bucket" "static_assets" {
-  bucket = var.bucket_name
-  acl    = "public-read"
+  bucket = "${var.bucket_name}-${random_id.suffix.hex}"
+  acl    = "private"
 
   website {
     index_document = "index.html"

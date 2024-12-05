@@ -3,5 +3,5 @@ variable "aws_region" {
 }
 
 variable "bucket_name" {
-  default = "nextjs_static_assets"
+  default = "nextjs-static-assets"
 }
