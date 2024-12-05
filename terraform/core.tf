@@ -56,163 +56,163 @@ resource "aws_lambda_function" "image_optimization_function" {
 
 ###
 
-resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
-  comment = "Access Identity for CloudFront"
-}
+# resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
+#   comment = "Access Identity for CloudFront"
+# }
 
-resource "aws_cloudfront_distribution" "cdn" {
-  enabled = true
+# resource "aws_cloudfront_distribution" "cdn" {
+#   enabled = true
 
-  origin {
-    domain_name = aws_s3_bucket.static_assets.bucket_regional_domain_name
-    origin_id   = "s3-origin"
+#   origin {
+#     domain_name = aws_s3_bucket.static_assets.bucket_regional_domain_name
+#     origin_id   = "s3-origin"
 
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
-    }
-  }
+#     s3_origin_config {
+#       origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+#     }
+#   }
 
-  origin {
-    domain_name = aws_lambda_function.server_function.invoke_arn
-    origin_id   = "lambda-origin-server-function"
+#   origin {
+#     domain_name = aws_lambda_function.server_function.invoke_arn
+#     origin_id   = "lambda-origin-server-function"
 
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "https-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }
+#     custom_origin_config {
+#       http_port              = 80
+#       https_port             = 443
+#       origin_protocol_policy = "https-only"
+#       origin_ssl_protocols   = ["TLSv1.2"]
+#     }
+#   }
 
-  origin {
-    domain_name = aws_lambda_function.image_optimization_function.invoke_arn
-    origin_id   = "lambda-origin-image-optimization-function"
+#   origin {
+#     domain_name = aws_lambda_function.image_optimization_function.invoke_arn
+#     origin_id   = "lambda-origin-image-optimization-function"
 
-    custom_origin_config {
-      http_port              = 80
-      https_port             = 443
-      origin_protocol_policy = "https-only"
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }
+#     custom_origin_config {
+#       http_port              = 80
+#       https_port             = 443
+#       origin_protocol_policy = "https-only"
+#       origin_ssl_protocols   = ["TLSv1.2"]
+#     }
+#   }
 
-  default_cache_behavior {
-    target_origin_id       = "s3-origin"
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
+#   default_cache_behavior {
+#     target_origin_id       = "s3-origin"
+#     viewer_protocol_policy = "redirect-to-https"
+#     allowed_methods        = ["GET", "HEAD"]
+#     cached_methods         = ["GET", "HEAD"]
 
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "none"
-      }
-    }
-  }
+#     forwarded_values {
+#       query_string = true
+#       cookies {
+#         forward = "none"
+#       }
+#     }
+#   }
 
-  ordered_cache_behavior {
-    path_pattern     = "/public/*"
-    target_origin_id = "s3-origin"
+#   ordered_cache_behavior {
+#     path_pattern     = "/public/*"
+#     target_origin_id = "s3-origin"
 
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
+#     viewer_protocol_policy = "redirect-to-https"
+#     allowed_methods        = ["GET", "HEAD"]
+#     cached_methods         = ["GET", "HEAD"]
 
-    forwarded_values {
-        query_string = false
-        cookies {
-        forward = "none"
-        }
-    }
-  }
+#     forwarded_values {
+#         query_string = false
+#         cookies {
+#         forward = "none"
+#         }
+#     }
+#   }
 
-  ordered_cache_behavior {
-    path_pattern     = "/_next/static/*"
-    target_origin_id = "s3-origin"
+#   ordered_cache_behavior {
+#     path_pattern     = "/_next/static/*"
+#     target_origin_id = "s3-origin"
 
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
+#     viewer_protocol_policy = "redirect-to-https"
+#     allowed_methods        = ["GET", "HEAD"]
+#     cached_methods         = ["GET", "HEAD"]
 
-    forwarded_values {
-        query_string = false
-        cookies {
-        forward = "none"
-        }
-    }
-  }
+#     forwarded_values {
+#         query_string = false
+#         cookies {
+#         forward = "none"
+#         }
+#     }
+#   }
 
-  ordered_cache_behavior {
-    path_pattern     = "/*"
-    target_origin_id = "lambda-origin-server-function"
+#   ordered_cache_behavior {
+#     path_pattern     = "/*"
+#     target_origin_id = "lambda-origin-server-function"
 
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "POST", "HEAD", "OPTIONS"]
-    cached_methods         = ["GET", "HEAD"]
+#     viewer_protocol_policy = "redirect-to-https"
+#     allowed_methods        = ["GET", "POST", "HEAD", "OPTIONS"]
+#     cached_methods         = ["GET", "HEAD"]
 
-    forwarded_values {
-        query_string = true
-        cookies {
-        forward = "all"
-        }
-    }
-    }
+#     forwarded_values {
+#         query_string = true
+#         cookies {
+#         forward = "all"
+#         }
+#     }
+#     }
   
-  ordered_cache_behavior {
-    path_pattern     = "/api/*"
-    target_origin_id = "lambda-origin-server-function"
+#   ordered_cache_behavior {
+#     path_pattern     = "/api/*"
+#     target_origin_id = "lambda-origin-server-function"
 
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "POST", "HEAD", "OPTIONS"]
-    cached_methods         = ["GET", "HEAD"]
+#     viewer_protocol_policy = "redirect-to-https"
+#     allowed_methods        = ["GET", "POST", "HEAD", "OPTIONS"]
+#     cached_methods         = ["GET", "HEAD"]
 
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "all"
-      }
-    }
-  }
+#     forwarded_values {
+#       query_string = true
+#       cookies {
+#         forward = "all"
+#       }
+#     }
+#   }
 
-  ordered_cache_behavior {
-    path_pattern     = "/_next/data/*"
-    target_origin_id = "lambda-origin-server-function"
+#   ordered_cache_behavior {
+#     path_pattern     = "/_next/data/*"
+#     target_origin_id = "lambda-origin-server-function"
 
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
+#     viewer_protocol_policy = "redirect-to-https"
+#     allowed_methods        = ["GET", "HEAD"]
+#     cached_methods         = ["GET", "HEAD"]
 
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "none"
-      }
-    }
-  }
+#     forwarded_values {
+#       query_string = true
+#       cookies {
+#         forward = "none"
+#       }
+#     }
+#   }
 
-  ordered_cache_behavior {
-    path_pattern     = "/_next/image/*"
-    target_origin_id = "lambda-origin-image-optimization-function"
+#   ordered_cache_behavior {
+#     path_pattern     = "/_next/image/*"
+#     target_origin_id = "lambda-origin-image-optimization-function"
 
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET"]
-    cached_methods         = ["GET"]
+#     viewer_protocol_policy = "redirect-to-https"
+#     allowed_methods        = ["GET"]
+#     cached_methods         = ["GET"]
 
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "none"
-      }
-    }
-  }
+#     forwarded_values {
+#       query_string = true
+#       cookies {
+#         forward = "none"
+#       }
+#     }
+#   }
 
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-    }
-  }
+#   restrictions {
+#     geo_restriction {
+#       restriction_type = "none"
+#     }
+#   }
 
-  viewer_certificate {
-    cloudfront_default_certificate = true
-  }
-}
+#   viewer_certificate {
+#     cloudfront_default_certificate = true
+#   }
+# }
