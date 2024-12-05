@@ -1,4 +1,12 @@
-# Next.js in AWS
+
+# Дополнительная информация
+
+Как только я смогу зарегестрировать новый аккаунт AWS (текущий аккаунт не мой, мне дали на время его поиспользовать), я сразу же смогу раскатить все ресурсы амазона в этом репозитории (в том числе CDN).
+Сейчас веду переговоры с поддержкой амазона, по непонятной мне принине амазон не хочет присылать мне верификационный код на телефон (номер не российский).
+
+
+
+## Собственно само задание Next.js in AWS
 
 This archive contains brief instructions and sample project code intended for deployment.
 
@@ -9,7 +17,7 @@ The objectives of the task are as follows:
 Assume that the deployment process may be easily automated with GitHub Actions or any other CI/CD.
 Avoid hardcoding specific identifiers, roles, regions, or other such details in the code.
 
-## Build resources
+### Build resources
 
 First, run the build script
 
@@ -19,7 +27,7 @@ First, run the build script
 
 The `out` directory contains all code for AWS Lambda functions and other static resources.
 
-## Deploy resources
+### Deploy resources
 
 From this point, you should proceed with the creation of an AWS infrastructure and the subsequent deployment of
 AWS Lambda code and static assets.
@@ -31,7 +39,7 @@ https://opennext.js.org/aws/inner_workings/architecture
 You must implement only the “**Core**” block from the diagram. The optional blocks
 (“Warmer” and “ISR revalidation”) are not relevant to this task but can contribute to a higher score.
 
-## Start web-server locally
+### Start web-server locally
 
 In case of comparing the deployment with the ideal state, it’s possible to run the web-server locally
 after the build step using the command:
