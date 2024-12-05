@@ -28,8 +28,8 @@ resource "aws_lambda_function" "server_function" {
   handler       = "index.handler"
   role          = var.lambda_execution_role_arn
 
-  filename         = "../out/server-functions.zip"
-  source_code_hash = filebase64sha256("../out/server-functions.zip")
+  filename         = "./out/server-functions.zip"
+  source_code_hash = filebase64sha256("./out/server-functions.zip")
 
   environment {
     variables = {
@@ -44,8 +44,8 @@ resource "aws_lambda_function" "image_optimization_function" {
   handler       = "index.handler"
   role          = var.lambda_execution_role_arn
 
-  filename         = "../out/image-optimization-function.zip"
-  source_code_hash = filebase64sha256("../out/image-optimization-function.zip")
+  filename         = "./out/image-optimization-function.zip"
+  source_code_hash = filebase64sha256("./out/image-optimization-function.zip")
 
   environment {
     variables = {
