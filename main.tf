@@ -4,7 +4,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket         = "state-bucket-sobes"
+    bucket         = "nextjs-static-assets-terraform"
     key            = "state.tfstate"
     region         = "eu-north-1"
     encrypt        = true

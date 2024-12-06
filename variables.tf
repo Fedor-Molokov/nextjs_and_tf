@@ -7,5 +7,5 @@ variable "bucket_name" {
 }
 
 variable "lambda_execution_role_arn" {
-  default = "arn:aws:iam::301225589079:role/lambda-sobes-role"
+  default = "arn:aws:iam::120569610851:role/MyLambdaRole"
 }
